@@ -1,0 +1,40 @@
+/* Add to App.css */
+.topnavbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #222;
+  color: #fff;
+  padding: 1rem 2rem;
+}
+
+.topnavbar-logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.topnavbar-links {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.topnavbar-links li {
+  display: flex;
+  align-items: center;
+}
+
+.login-btn {
+  background: #fff;
+  color: #222;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.content {
+  padding: 2rem;
+}
