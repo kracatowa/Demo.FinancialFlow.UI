@@ -7,6 +7,8 @@ import Home from './pages/Home'
 import About from './pages/About'
 import { MsalProvider } from "@azure/msal-react";
 import { msalInstance } from "./components/login/AuthConfig";
+import FilePortal from './pages/FilePortal'
+import RequireAuth from './components/login/RequiredAuth'
 
 
 createRoot(document.getElementById('root')!).render(
@@ -17,6 +19,14 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
             <Route path="about" element={<About />} />
+            <Route
+              path="file-portal"
+              element={
+                <RequireAuth>
+                  <FilePortal />
+                </RequireAuth>
+              }
+            />
           </Route>
         </Routes>
       </MsalProvider>
