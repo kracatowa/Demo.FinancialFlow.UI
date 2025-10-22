@@ -11,11 +11,15 @@ function App() {
   return (
     <>
       <TopNavbar />
-      {isAuthenticated && <Sidebar />}
-      <div className="main-content">
-        <Outlet />
+      <div className="app-layout">
+        {isAuthenticated && <Sidebar />}
+        <div className="main-content">
+          <Outlet />
+          <Footer />
+        </div>
+
       </div>
-      <Footer />
+
     </>
   )
 }
