@@ -9,6 +9,7 @@ import { MsalProvider } from "@azure/msal-react";
 import { msalInstance } from "./components/login/AuthConfig";
 import FilePortal from './pages/FilePortal'
 import RequireAuth from './components/login/RequiredAuth'
+import FileTransactions from './pages/FileTransactions'
 
 
 createRoot(document.getElementById('root')!).render(
@@ -26,8 +27,19 @@ createRoot(document.getElementById('root')!).render(
                   <FilePortal />
                 </RequireAuth>
               }
+              
+            />
+          <Route
+              path="file-transactions"
+              element={
+                <RequireAuth>
+                  <FileTransactions />
+                </RequireAuth>
+              }
+              
             />
           </Route>
+
         </Routes>
       </MsalProvider>
     </BrowserRouter>
