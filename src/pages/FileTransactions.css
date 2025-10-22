@@ -1,4 +1,3 @@
-
 .file-transactions-error {
   color: #d32f2f;
   margin-bottom: 1rem;
@@ -13,5 +12,13 @@
 }
 
 .file-transactions-table-container {
-    min-height: calc(11 * 3.25rem);
+  transition: min-height 0.3s;
+}
+
+.file-transactions-table-container.compact {
+  min-height: 4rem; /* Compact height when empty */
+}
+
+.file-transactions-table-container.expanded {
+  min-height: calc(11 * 3.25rem); /* Original height when there are results */
 }

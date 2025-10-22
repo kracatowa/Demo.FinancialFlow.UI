@@ -74,7 +74,7 @@ export default function FilePortal() {
   };
 
   return (
-    <div className="file-portal-container">
+    <div className="app-container file-portal-container">
       <h1 className="file-portal-title">File Portal</h1>
       <p className="file-portal-desc">Upload and manage your financial documents here.</p>
       <div className="file-portal-upload">

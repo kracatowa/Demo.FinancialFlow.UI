@@ -74,12 +74,16 @@ export default function FileTransactions() {
 
 
   return (
-    <div>
+    <div className="app-container file-transactions-container">
       <h1>File Transactions</h1>
 
       {loading && <p>Loading...</p>}
       {error && <div className="file-transactions-error">{error}</div>}
-      <div className="file-transactions-table-container">
+      <div
+      className={`file-transactions-table-container ${
+        totalCount === 0 ? "compact" : "expanded"
+      }`}
+      >
         <FileTransactionTable transactions={transactions} />
       </div>
       <div className="file-transactions-footer">
