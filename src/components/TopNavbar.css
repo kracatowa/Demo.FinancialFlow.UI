@@ -1,11 +1,17 @@
 /* Add to App.css */
 .topnavbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 97vw;
+  height: 64px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: #222;
   color: #fff;
-  padding: 1rem 2rem;
+  padding: 0 2rem;
+  z-index: 200;
 }
 
 .topnavbar-logo {
@@ -35,6 +41,9 @@
   cursor: pointer;
 }
 
-.content {
-  padding: 2rem;
+.home-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.5rem;
 }
