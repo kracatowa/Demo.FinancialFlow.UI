@@ -5,14 +5,15 @@ import { useEffect, useState } from "react";
 import "./FileTransactions.css";
 import PageSizeSelector from "../components/fileTransaction/PageSizeSelector";
 import PageNavigation from "../components/fileTransaction/PageNavigation";
+import TransactionFiltersBar from "../components/fileTransaction/TransactionFiltersBar";
 
 type FinancialFlowQuery = {
   pageNumber?: number;
   pageSize?: number;
   minAmount?: number;
   maxAmount?: number;
-  fromDate?: string; // ISO string
-  toDate?: string;   // ISO string
+  fromDate?: string;
+  toDate?: string;
   description?: string;
   flowType?: number;
   subsidiairy?: string;
@@ -41,11 +42,11 @@ export default function FileTransactions() {
   const [totalCount, setTotalCount] = useState<number>(0);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
+  const [filters, setFilters] = useState<FinancialFlowQuery>({});
 
   const totalPages = Math.ceil(totalCount / pageSize);
 
-  useEffect(() => {
-    const fetchTransactions = async () => {
+const fetchTransactions = async () => {
       setLoading(true);
       setError(null);
 
@@ -69,9 +70,11 @@ export default function FileTransactions() {
       }
     };
 
+
+  useEffect(() => {
+    
     fetchTransactions();
   }, [pageNumber, pageSize]);
-
 
   return (
     <div>
@@ -79,6 +82,7 @@ export default function FileTransactions() {
 
       {loading && <p>Loading...</p>}
       {error && <div className="file-transactions-error">{error}</div>}
+      <TransactionFiltersBar filters={filters} setFilters={setFilters} onSearch={fetchTransactions} />
       <div className="file-transactions-table-container">
         <FileTransactionTable transactions={transactions} />
       </div>
