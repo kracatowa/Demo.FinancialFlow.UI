@@ -1,0 +1,17 @@
+
+.file-transactions-error {
+  color: #d32f2f;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.file-transactions-footer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.file-transactions-table-container {
+    min-height: calc(11 * 3.25rem);
+}
