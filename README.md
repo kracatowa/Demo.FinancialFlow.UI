@@ -1,73 +1,54 @@
-# React + TypeScript + Vite
+# Demo.FinancialFlow.UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The frontend was developed with React to provide a smooth and responsive user experience. It allows users to upload financial files, track their processing, and visualize key insights through interactive dashboards — all seamlessly connected to the backend and cloud infrastructure on Azure.
 
-Currently, two official plugins are available:
+## Authentication
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This application now integrates authentication with **Azure Entra ID** (Microsoft Entra ID, formerly Azure AD) using [MSAL.js](https://github.com/AzureAD/microsoft-authentication-library-for-js) and [`@azure/msal-react`](https://github.com/AzureAD/microsoft-authentication-library-for-js/tree/dev/lib/msal-react).
 
-## React Compiler
+- The authentication provider is set up in [`src/main.tsx`](demo.financialFlow.ui/src/main.tsx) using [`MsalProvider`](demo.financialFlow.ui/src/main.tsx) and a configured MSAL instance from [`src/components/login/AuthConfig.ts`](demo.financialFlow.ui/src/components/login/AuthConfig.ts).
+- Users are required to sign in with their Azure Entra ID account to access protected routes.
+- The [`RequireAuth`](demo.financialFlow.ui/src/components/login/RequiredAuth.tsx) component can be used to protect pages and redirect unauthenticated users to the login page.
+- Environment variables (`VITE_TENANT_ID`, `VITE_CLIENT_ID`, `VITE_REDIRECT_URI`) are used for configuration.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Getting Started
 
-## Expanding the ESLint configuration
+1. **Install dependencies:**
+   ```sh
+   npm install
+   ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+2. **Configure environment variables:**
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+   Create a `.env.development` file in `demo.financialFlow.ui/` with:
+   ```
+   VITE_TENANT_ID=your-tenant-id
+   VITE_CLIENT_ID=your-client-id
+   VITE_REDIRECT_URI=http://localhost:5173
+   ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+3. **Run the development server:**
+   ```sh
+   npm run dev
+   ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+4. **Build for production:**
+   ```sh
+   npm run build
+   ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Project Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- [`src/main.tsx`](demo.financialFlow.ui/src/main.tsx): App entry point, routing, and authentication provider setup.
+- [`src/components/login/AuthConfig.ts`](demo.financialFlow.ui/src/components/login/AuthConfig.ts): MSAL configuration.
+- [`src/components/login/RequiredAuth.tsx`](demo.financialFlow.ui/src/components/login/RequiredAuth.tsx): Route protection.
+- [`src/pages/Home.tsx`](demo.financialFlow.ui/src/pages/Home.tsx): Home page with login button.
+- [`src/pages/About.tsx`](demo.financialFlow.ui/src/pages/About.tsx): About page.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Features
+
+- **Azure Entra ID authentication** for secure access.
+- Modern React UI with routing and component-based structure.
+- Ready for integration with backend APIs and Azure services.
+
+---
