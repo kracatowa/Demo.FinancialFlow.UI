@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import axios from "axios";
 import "./FilePortal.css";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5017";
+const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5017";
 
 export default function FilePortal() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -22,7 +22,7 @@ export default function FilePortal() {
     if (!lines[1].includes(";") && !lines[1].includes(",")) {
       return "CSV must have at least one data row with ';', ',' as separator.";
     }
-    
+
     return null;
   };
 

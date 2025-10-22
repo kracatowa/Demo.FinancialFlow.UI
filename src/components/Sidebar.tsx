@@ -10,6 +10,9 @@ export default function Sidebar() {
           <Link to="/file-portal">
             <button className="sidebar-btn">File Portal</button>
           </Link>
+          <Link to="/file-transactions">
+            <button className="sidebar-btn">File Transactions</button>
+          </Link>
         </li>
       </ul>
     </div>
