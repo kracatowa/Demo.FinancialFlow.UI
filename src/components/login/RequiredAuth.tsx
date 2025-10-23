@@ -1,19 +1,19 @@
 import { useEffect } from "react";
-import { useMsal } from "@azure/msal-react";
-import { loginRequest } from "./AuthConfig";
 import type { JSX } from "react";
+import { useAuth } from "./AuthContext";
+import RedirectionPage from "../../pages/RedirectionPage";
 
 export default function RequireAuth({ children }: { children: JSX.Element }) {
-  const { instance, accounts, inProgress } = useMsal();
+  const auth = useAuth();
 
   useEffect(() => {
-    if (inProgress === "none" && accounts.length === 0) {
-      instance.loginRedirect(loginRequest);
+    if (!auth.isAuthenticated()) {
+      auth.login();
     }
-  }, [accounts, instance, inProgress]);
+  }, [auth]);
 
-  if (accounts.length === 0) {
-    return <div>Redirecting to login...</div>;
+  if (!auth.isAuthenticated()) {
+    return <RedirectionPage />;
   }
 
   return children;

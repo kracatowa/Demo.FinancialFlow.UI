@@ -5,17 +5,16 @@ import './index.css'
 import App from './App'
 import Home from './pages/Home'
 import About from './pages/About'
-import { MsalProvider } from "@azure/msal-react";
-import { msalInstance } from "./components/login/AuthConfig";
 import FilePortal from './pages/FilePortal'
 import RequireAuth from './components/login/RequiredAuth'
 import FileTransactions from './pages/FileTransactions'
+import MsalAuthProvider from './components/login/msal/MsalAuthProvider';
 
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <MsalProvider instance={msalInstance}>
+      <MsalAuthProvider>
         <Routes>
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
@@ -27,21 +26,18 @@ createRoot(document.getElementById('root')!).render(
                   <FilePortal />
                 </RequireAuth>
               }
-              
             />
-          <Route
+            <Route
               path="file-transactions"
               element={
                 <RequireAuth>
                   <FileTransactions />
                 </RequireAuth>
               }
-              
             />
           </Route>
-
         </Routes>
-      </MsalProvider>
+      </MsalAuthProvider>
     </BrowserRouter>
   </StrictMode>,
-)
+);
