@@ -24,7 +24,15 @@ function InnerProvider({ children }: { children: React.ReactNode }) {
     login: async () => instance.loginRedirect(loginRequest),
     logout: async () => instance.logoutRedirect(),
     isAuthenticated: () => !!(accounts && accounts.length > 0),
-    getAccount: () => (accounts && accounts.length ? accounts[0] : null)
+    getAccount: () => {
+      return (accounts && accounts.length > 0)
+      ? {
+          id: accounts[0].homeAccountId,
+          name: accounts[0].name ?? "",
+          email: accounts[0].username ?? ""
+        }
+    : null;
+    }
   };
 
   return <AuthProvider value={adapter}>{children}</AuthProvider>;

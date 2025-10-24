@@ -1,11 +1,17 @@
 import { createContext, useContext } from "react";
 
+export type User = {
+  id: string;
+  name?: string;
+  email?: string;
+};
+
 export type AuthAdapter = {
   getAccessToken: (scopes?: string[]) => Promise<string>;
   login: () => Promise<void>;
   logout: () => Promise<void>;
   isAuthenticated: () => boolean;
-  getAccount?: () => any | null;
+  getAccount?: () => User | null;
 };
 
 const NoopAdapter: AuthAdapter = {

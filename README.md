@@ -61,6 +61,13 @@ Refer to [`src/components/login/AuthConfig.ts`](demo.financialFlow.ui/src/compon
 - [`src/components/login/RequiredAuth.tsx`](demo.financialFlow.ui/src/components/login/RequiredAuth.tsx): Route protection.
 - [`src/pages/Home.tsx`](demo.financialFlow.ui/src/pages/Home.tsx): Home page with login button.
 - [`src/pages/About.tsx`](demo.financialFlow.ui/src/pages/About.tsx): About page.
+- [`src/pages/FilePortal.tsx`](demo.financialFlow.ui/src/pages/FilePortal.tsx): **File upload portal (protected route).**
+
+## Routes
+
+- `/` — Home page
+- `/about` — About page
+- `/file-portal` — **File Portal (protected, requires authentication)**
 
 ## Features
 
