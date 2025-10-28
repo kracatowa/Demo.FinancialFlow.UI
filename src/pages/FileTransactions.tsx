@@ -3,8 +3,8 @@ import FileTransactionTable from "../components/fileTransaction/FileTransactionT
 import type { FileTransaction } from "../components/fileTransaction/FileTransactionTable";
 import { useEffect, useState } from "react";
 import "./FileTransactions.css";
-import PageSizeSelector from "../components/fileTransaction/PageSizeSelector";
-import PageNavigation from "../components/fileTransaction/PageNavigation";
+import PageSizeSelector from "../components/pagination/PageSizeSelector";
+import PageNavigation from "../components/pagination/PageNavigation";
 
 type FinancialFlowQuery = {
   pageNumber?: number;
