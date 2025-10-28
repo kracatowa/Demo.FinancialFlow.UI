@@ -49,3 +49,25 @@
   color: #fff;
   outline: none;
 }
+
+.sidebar-submenu .sidebar-btn {
+  padding-left: 24px;
+}
+
+.sidebar-submenu {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar-submenu.open {
+  max-height: 500px;
+  opacity: 1;
+}
+
+.sidebar-submenu .sidebar-btn {
+  padding-left: 24px;
+}

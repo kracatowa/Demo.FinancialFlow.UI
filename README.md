@@ -62,17 +62,20 @@ Refer to [`src/components/login/AuthConfig.ts`](demo.financialFlow.ui/src/compon
 - [`src/pages/Home.tsx`](demo.financialFlow.ui/src/pages/Home.tsx): Home page with login button.
 - [`src/pages/About.tsx`](demo.financialFlow.ui/src/pages/About.tsx): About page.
 - [`src/pages/FilePortal.tsx`](demo.financialFlow.ui/src/pages/FilePortal.tsx): **File upload portal (protected route).**
+- [`src/pages/FileAudit.tsx`](demo.financialFlow.ui/src/pages/FileAudit.tsx): **Audit page for tracking file processing and status.**
 
 ## Routes
 
 - `/` — Home page
 - `/about` — About page
 - `/file-portal` — **File Portal (protected, requires authentication)**
+- `/file-audit` — **Audit page for viewing file processing history and statuses**
 
 ## Features
 
 - **Cloud-agnostic authentication** for secure access with multiple providers.
 - Modern React UI with routing and component-based structure.
 - Ready for integration with backend APIs and cloud services.
+- **Audit page** to view the history and status of financial file processing, including filtering, pagination, and status tracking.
 
 ---

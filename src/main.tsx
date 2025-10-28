@@ -9,6 +9,7 @@ import FilePortal from './pages/FilePortal'
 import RequireAuth from './components/login/RequiredAuth'
 import FileTransactions from './pages/FileTransactions'
 import MsalAuthProvider from './components/login/msal/MsalAuthProvider';
+import FileAudit from './pages/FileAudit'
 
 
 createRoot(document.getElementById('root')!).render(
@@ -32,6 +33,14 @@ createRoot(document.getElementById('root')!).render(
               element={
                 <RequireAuth>
                   <FileTransactions />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="file-audit"
+              element={
+                <RequireAuth>
+                  <FileAudit />
                 </RequireAuth>
               }
             />
