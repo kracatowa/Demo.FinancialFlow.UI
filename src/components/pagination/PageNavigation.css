@@ -1,28 +1,122 @@
+[data-pagination],
+[data-pagination] * {
+  box-sizing: border-box;
+  font-family: 'Open Sans', 'Source Sans Pro', Roboto, Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+[data-pagination] {
+  font-size: 10pt;
+  line-height: 1;
+  font-weight: 400;
+  margin: 1em auto;
+  text-align: center;
+  transition: font-size .2s ease-in-out;
+  background: transparent;
+}
+
+[data-pagination] ul {
+  list-style-type: none;
+  display: inline;
+  font-size: 100%;
+  margin: 0;
+  padding: .5em;
+}
+
+[data-pagination] ul li {
+  display: inline-block;
+  font-size: 100%;
+  width: auto;
+  border-radius: 3px;
+}
+
+[data-pagination] > a {
+  font-size: 140%;
+  vertical-align: middle;
+  padding: .5em;
+  color: #777;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+  outline: none;
+}
+
+[data-pagination] a {
+  color: #777;
+  font-size: 100%;
+  padding: .5em;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+[data-pagination] a:focus,
+[data-pagination] a:hover {
+  color: #f60;
+}
+
+[data-pagination] li.current {
+  background: #007bff;
+  border-radius: 3px;
+}
+
+[data-pagination] li.current a {
+  color: #fff !important;
+  font-weight: bold;
+}
+
+[data-pagination] .disabled,
+[data-pagination] [hidden],
+[data-pagination] [disabled] {
+  opacity: .5;
+  pointer-events: none;
+}
+
+@media (min-width: 350px) {
+  [data-pagination] {
+    font-size: 12pt;
+  }
+}
+@media (min-width: 500px) {
+  [data-pagination] {
+    font-size: 14pt;
+  }
+}
+@media (min-width: 700px) {
+  [data-pagination] {
+    font-size: 16pt;
+  }
+}
+@media (min-width: 900px) {
+  [data-pagination] {
+    font-size: 18pt;
+  }
+}
+
 .file-transactions-pagination {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 
-.file-transactions-pagination button {
-  padding: 0.5rem 1.2rem;
-  background: #1976d2;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s;
+.file-transactions-pagination a {
+  color: var(--text-primary);
 }
 
-.file-transactions-pagination button:disabled {
-  background: #bdbdbd;
+.file-transactions-pagination a:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.file-transactions-pagination a:disabled {
+  color: var(--text-secondary);
   cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .file-transactions-pagination span {
   font-size: 1rem;
-  color: #222;
+  color: var(--text-primary);
+  font-weight: 500;
 }

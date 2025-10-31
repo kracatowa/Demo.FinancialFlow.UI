@@ -3,13 +3,15 @@ import axios from "axios";
 import "./FilePortal.css";
 import { useCurrentUser } from "../components/login/useCurrentUser";
 import { validateCsvContent } from "../utils/CsvValidator";
+import UploadInput from "../components/files/UploadInput";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function FilePortal() {
-  const currentUser = useCurrentUser();
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const currentUser = useCurrentUser();    
   const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [message, setMessage] = useState<string | null>(null);
   const [isError, setIsError] = useState<boolean>(false);
 
@@ -46,7 +48,7 @@ export default function FilePortal() {
 
     setUploading(true);
     try {
-      await axios.post(`${API_URL}/api/FinancialFlow/upload/start`, formData, {
+      await axios.post(`${API_URL}/api/FinancialFlowFileAudit/upload/start`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           "accept": "*/*"
@@ -67,14 +69,12 @@ export default function FilePortal() {
       <h1 className="file-portal-title">File Portal</h1>
       <p className="file-portal-desc">Upload and manage your financial documents here.</p>
       <div className="file-portal-upload">
-        <input type="file" className="file-portal-input" ref={fileInputRef} accept=".csv,text/csv"/>
-        <button
-          className="file-portal-btn"
-          onClick={handleUpload}
-          disabled={uploading}
-        >
-          {uploading ? "Uploading..." : "Upload File"}
-        </button>
+        <UploadInput
+          fileInputRef={fileInputRef}
+          onUpload={handleUpload}
+          uploading={uploading}
+          extensions={["csv"]}
+        />
       </div>
       {message && (
         <div className={`file-portal-message ${isError ? "error" : "success"}`}>

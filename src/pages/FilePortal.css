@@ -1,52 +1,80 @@
 .file-portal-title {
   margin-bottom: 0.5rem;
-  font-size: 2rem;
-  color: #222;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 .file-portal-desc {
   margin-bottom: 2rem;
-  color: #555;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
 }
 
 .file-portal-upload {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
   align-items: center;
+  background: var(--bg-tertiary);
+  border: 2px dashed var(--border-color);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  transition: all 0.3s ease;
+}
+
+.file-portal-upload:hover {
+  border-color: var(--accent-primary);
 }
 
 .file-portal-input {
-  padding: 0.5rem;
+  padding: 0.75rem;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.file-portal-input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
 }
 
 .file-portal-btn {
-  padding: 0.75rem 2rem;
-  background: #1976d2;
+  padding: 0.85rem 2.5rem;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
   color: #fff;
   border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: 500;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.3s ease;
 }
 
 .file-portal-btn:hover,
 .file-portal-btn:focus {
-  background: #125ea2;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.5);
 }
 
 .file-portal-message {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
 }
 
 .file-portal-message.error {
-  color: #d32f2f;
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.3);
 }
 
 .file-portal-message.success {
-  color: #388e3c;
+  color: #51cf66;
+  background: rgba(81, 207, 102, 0.1);
+  border: 1px solid rgba(81, 207, 102, 0.3);
 }

@@ -86,14 +86,12 @@ export default function FileTransactions() {
       >
         <FileTransactionTable transactions={transactions} />
       </div>
-      <div className="file-transactions-footer">
-        <PageNavigation
-            pageNumber={pageNumber}
-            totalPages={totalPages}
-            setPageNumber={setPageNumber}
-        />
+      <PageNavigation
+        pageNumber={pageNumber}
+        totalPages={totalPages}
+        setPageNumber={setPageNumber}
+      />
         <PageSizeSelector pageSize={pageSize} setPageSize={setPageSize} />
-      </div>
     </div>
   );
 }

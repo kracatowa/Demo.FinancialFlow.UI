@@ -75,14 +75,13 @@ export default function FileAudit() {
         >
           <FileTable transactions={transactions} />
         </div>
-        <div className="file-transactions-footer">
+
           <PageNavigation
               pageNumber={pageNumber}
               totalPages={totalPages}
               setPageNumber={setPageNumber}
           />
           <PageSizeSelector pageSize={pageSize} setPageSize={setPageSize} />
-        </div>
       </div>
     );
 }
