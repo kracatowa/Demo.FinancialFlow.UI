@@ -1,8 +1,9 @@
 .sidebar-container {
   display: flex;
   inline-size: 16.25rem;
-  block-size: 100vh;
   padding: 0.5rem;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
 }
 
 .sidebar-nav-container {
@@ -55,6 +56,7 @@ ul {
   align-content: flex-end;
   color: var(--text-secondary);
   font-weight: 350;
+  align-items: flex-end;
 }
 
 .sidebar-li-a {
@@ -62,6 +64,15 @@ ul {
   align-items: center;
   gap: 0.5rem;
   block-size: 100%;
+  text-decoration: none;
+}
+
+.sidebar-li-a:hover {
+  background: var(--hover-bg);
+  color: var(--accent-primary);
+  text-decoration: underline;
+  transition: background 0.2s, color 0.2s;
+  border-radius: 5px;
 }
 
 .sidebar-icon {
@@ -72,12 +83,13 @@ ul {
         place-self: center;
         inline-size: var(--svg);
         block-size: var(--svg);
-        fill: var(--text-secondary);
+        fill: var(--accent-primary);
     }
 }
 
 .sidebar-text {
     font-size: 1rem;
     color: var(--text-primary);
-    font-weight: 500;
+    font-weight: 600;
+    color: var(--text-secondary);
 }

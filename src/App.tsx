@@ -7,12 +7,10 @@ function App() {
   return (
     <>
       <Sidebar />
-      <div className="app-layout">
         <div className="main-content">
           <Outlet />
           <Footer />
         </div>
-      </div>
     </>
   )
 }
