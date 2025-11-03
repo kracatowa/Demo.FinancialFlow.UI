@@ -8,7 +8,7 @@
 
 .app-container {
   animation: fadeInUp 0.6s ease-out;
-  block-size: 100%;
+  height: 100vh;
 }
 
 @keyframes fadeInUp {
@@ -23,23 +23,11 @@
 }
 
 .main-content {
-  padding: 1rem 2rem;
   text-align: center;
   background: var(--bg-primary);
   display: flex;
   flex-direction: column;
   flex: 1;
-}
-
-/* Responsive styles */
-@media (max-width: 900px) {
-  .main-content {
-    padding: 1rem;
-    padding-top: 80px;
-  }
-  .app-container {
-    padding: 1.5rem 1rem;
-  }
 }
 
 h1 {
@@ -51,20 +39,6 @@ h2 {
   line-height: 1.3;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-
-.logo:hover {
-  filter: drop-shadow(0 0 2em var(--accent-primary));
-}
-
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
 
 @keyframes logo-spin {
   from {
@@ -81,21 +55,3 @@ h2 {
   }
 }
 
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 12px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-primary);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--bg-tertiary);
-  border-radius: 6px;
-  border: 2px solid var(--bg-primary);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--hover-bg);
-}

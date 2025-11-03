@@ -1,22 +1,22 @@
-.footer {
+footer {
   background: var(--bg-secondary);
   color: var(--text-secondary);
-  padding: 2rem 2rem;
   text-align: center;
-  border-top: 1px solid var(--border-color);
-  margin-top: 3rem;
+  flex: 0 0 auto;
+  padding-bottom: 2rem;
+  padding-top: 2rem;
 }
 
-.footer p {
+footer p {
   margin: 0.5rem 0;
   font-size: 0.9rem;
 }
 
-.footer a {
+footer a {
   color: var(--text-primary);
   transition: color 0.2s ease;
 }
 
-.footer a:hover {
+footer a:hover {
   color: var(--accent-primary);
 }

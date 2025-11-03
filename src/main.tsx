@@ -10,6 +10,7 @@ import RequireAuth from './components/login/RequiredAuth'
 import FileTransactions from './pages/FileTransactions'
 import MsalAuthProvider from './components/login/msal/MsalAuthProvider';
 import FileAudit from './pages/FileAudit'
+import Login from './pages/Login'
 
 
 createRoot(document.getElementById('root')!).render(
@@ -17,6 +18,7 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <MsalAuthProvider>
         <Routes>
+          <Route path="/login" element={<Login />} />
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
             <Route path="about" element={<About />} />

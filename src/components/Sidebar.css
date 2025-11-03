@@ -1,9 +1,8 @@
 .sidebar-container {
   display: flex;
-  inline-size: 16.25rem;
+  inline-size: 15vw;
   padding: 0.5rem;
   background: var(--bg-secondary);
-  border-right: 1px solid var(--border-color);
 }
 
 .sidebar-nav-container {
