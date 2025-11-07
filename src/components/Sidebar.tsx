@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { FaHome, FaFileAlt, FaExchangeAlt, FaSearch } from "react-icons/fa"
+import { FaHome } from "react-icons/fa"
 import "./Sidebar.css"
 
 export default function Sidebar() {
@@ -21,30 +21,6 @@ export default function Sidebar() {
                 <FaHome />
               </span>
               <span className="sidebar-text">Home</span>
-            </Link>
-          </li>
-          <li className="sidebar-li">
-            <Link to="/file-portal" className="sidebar-li-a">
-              <span className="sidebar-icon">
-                <FaFileAlt />
-              </span>
-              <span className="sidebar-text">Portal</span>
-            </Link>
-          </li>
-          <li className="sidebar-li">
-            <Link to="/file-transactions" className="sidebar-li-a">
-              <span className="sidebar-icon">
-                <FaExchangeAlt />
-              </span>
-              <span className="sidebar-text">Transactions</span>
-            </Link>
-          </li>
-          <li className="sidebar-li">
-            <Link to="/file-audit" className="sidebar-li-a">
-              <span className="sidebar-icon">
-                <FaSearch/>
-              </span>
-              <span className="sidebar-text">Audit</span>
             </Link>
           </li>
         </ul>
