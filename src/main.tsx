@@ -11,7 +11,8 @@ import FileTransactions from './pages/FileTransactions'
 import MsalAuthProvider from './components/login/msal/MsalAuthProvider';
 import FileAudit from './pages/FileAudit'
 import Login from './pages/Login'
-
+import 'primereact/resources/themes/lara-light-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
