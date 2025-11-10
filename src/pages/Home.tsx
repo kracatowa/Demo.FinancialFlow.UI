@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 import "./Home.css";
 import { TreeTable } from 'primereact/treetable';
 import { Column } from 'primereact/column';
+import { fetchDashboardData, type Account, type BalanceSnapshot, type DashboardData } from "./dashboardService";
+import type { TreeNode } from "primereact/treenode";
+import { buildTreeNode } from "./treeNodeService";
+import { FaSearch } from "react-icons/fa";
+import AccountSidePanel from "../components/AccountSidePanel";
 
 export default function Home() {
   const [date, setDate] = useState("2025-11-04 14:20 (UTC)");
@@ -12,57 +17,54 @@ export default function Home() {
     EUR: 23,
     CAD: 15
   });
-  const [treeTableData, setTreeTableData] = useState<any[]>([]);
+  const [treeTableNodes, setTreeTableNodes] = useState<TreeNode[]>([]);
+  const [visible, setVisible] = useState(false);
+  const [account, setAccount] = useState<Account | null>(null);
+  const [balanceSnapshot, setBalanceSnapshot] = useState<BalanceSnapshot | null>(null);
+  const [balanceSnapshots, setBalanceSnapshots] = useState<BalanceSnapshot[]>([]);
+  const [accounts, setAccounts] = useState<Account[]>([]);
+  const [data, setData] = useState<DashboardData | null>(null);
 
   useEffect(() => {
-    setTreeTableData(nodes);
+    const fetchData = async () => {
+      const data = await fetchDashboardData();
+      
+      setData(data);
+      setAccounts(data.accounts);
+      setBalanceSnapshots(data.balanceSnapshots);
+      setTreeTableNodes(await buildTreeNode(data))
+    };
+    fetchData();
   }, []);
   
   useEffect(() => {
     let totalBalance = 0;
 
-    nodes.forEach(node => {
+    treeTableNodes.forEach(node => {
       totalBalance += parseFloat(node.data.balance.replace(/,/g, '') || '0');
     });
     setTotalCash(totalBalance);
+
+    
 
     setCurrencyDistribution({
       USD: 62,
       EUR: 23,
       CAD: 15
     });
+  }, [treeTableNodes]);
 
-  }, [treeTableData]);
+  const actionTemplate = (node : TreeNode) => {
+        let dataname = node.data.name
 
-  const nodes = [
-    {
-      key: '0',
-      data: { name: 'Bank of America', balance: '21,450,000', lcybalance: '-', lcy: '-' },
-      children: [
-        {
-          key: '0-0',
-          data: { name: 'North America Holding (Entity NA-001)', balance: '-', lcybalance: '-', lcy: '-' },
-          children: [{
-            key: '0-0-0',
-            data: { name: 'USD', balance: '18,900,000', lcybalance: '-', lcy: 'USD'},
-            children: [
-              { key: '0-0-0-0', data:{ name: 'Account #****2143 (Operating)', balance: '12,500,000', lcybalance: '12,500,000', lcy: 'USD'} },
-              { key: '0-0-0-1', data:{ name: 'Account #****9932 (Payroll)', balance: '6,400,000', lcybalance: '6,400,000', lcy: 'USD'} }
-            ]
-          },
-          {
-            key: '0-0-1',
-            data: { name: 'CAD', balance: '2,550,000', lcybalance: '-', lcy: 'CAD'},
-            children: [
-              { key: '0-0-1-0', data:{ name: 'Account #****7878 (Operating)', balance: '2,550,000', lcybalance: '2,550,000', lcy: 'CAD'} },
-            ]
-          }]
-        }
-      ]
-    }
-  ];
+        return  dataname.startsWith("Account") ? (
+        <button id={node.key ? `${node.key}` : ''} type="button" aria-label="Search" className="icon-button" onClick={()=>{ setVisible(true); setAccount(accounts.find(acc => acc.id === node.key) || null); setBalanceSnapshot(balanceSnapshots.find(snap => snap.account_id === node.key) || null); }}>
+            <FaSearch />
+        </button>
+        ) : null;
+  };
 
-  const totalBalance = (node : any) : React.ReactNode => {
+  const totalBalance = (node : TreeNode) : React.ReactNode => {
     let lcybalance = node.data.lcybalance;
     let fontWeight = lcybalance === '-' ? 'bold' : 'normal';
 
@@ -85,7 +87,6 @@ export default function Home() {
           <p className="home-card-title">Base currency</p>
           <p className="home-card-content">{baseCurrency}</p>
         </div>
-
         <div className="home-card">
           <p className="home-card-title">By Currency</p>
           <p className="home-card-content">
@@ -96,14 +97,16 @@ export default function Home() {
         </div>
       </div>
       <div className="card">
-        <TreeTable value={treeTableData}>
+        <TreeTable value={treeTableNodes}>
           <Column field="name" header="Bank / Entity / Currency / Account" style={{width: '24rem'}} expander sortable></Column>
           <Column field="lcybalance" header="Balance (LCY)" style={{width: '6rem'}} sortable></Column>
           <Column field="lcy" header="LCY" style={{width: '4rem'}} sortable></Column>
           <Column field="balance" header={`Base (${baseCurrency})`} style={{width: '6rem'}} body={totalBalance} sortable></Column>
+          <Column body={actionTemplate} style={{width: '1rem'}} />
         </TreeTable>
       </div>
 
+      {visible && <AccountSidePanel visible={visible} setVisible={setVisible} accountData={account} balanceSnapshot={balanceSnapshot} />}
     </div>
   )
 }
