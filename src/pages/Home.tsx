@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./Home.css";
 import { fetchDashboardData, type Account, type BalanceSnapshot, type DashboardData } from "./services/dashboardService";
 import type { TreeNode } from "primereact/treenode";
@@ -10,7 +10,7 @@ import DashboardSummaryCards from "../components/DashboardSummaryCards";
 
 export default function Home() {
   const [date, setDate] = useState("2025-11-04 14:20 (UTC)");
-  const [baseCurrency, setBaseCurrency] = useState("USD");
+  const [baseCurrency] = useState("USD");
   const [treeTableNodes, setTreeTableNodes] = useState<TreeNode[]>([]);
   const [visible, setVisible] = useState(false);
   const [account, setAccount] = useState<Account | null>(null);
