@@ -1,43 +1,32 @@
 import { Link } from "react-router-dom"
+import { FaHome } from "react-icons/fa"
 import "./Sidebar.css"
-import { useState } from "react"
 
 export default function Sidebar() {
-  const [fileOpen, setFileOpen] = useState(true)
-
   return (
-    <div className="sidebar">
-      <h3>Navigation</h3>
-      <ul>
-        <li>
-          <button
-            className="sidebar-btn"
-            onClick={() => setFileOpen((open) => !open)}
-          >
-            File
-          </button>
-          <ul
-            className={`sidebar-submenu${fileOpen ? " open" : ""}`}
-            style={{ pointerEvents: fileOpen ? "auto" : "none" }}
-          >
-            <li>
-              <Link to="/file-portal">
-                <button className="sidebar-btn">Portal</button>
-              </Link>
-            </li>
-            <li>
-              <Link to="/file-transactions">
-                <button className="sidebar-btn">Transactions</button>
-              </Link>
-            </li>
-            <li>
-              <Link to="/file-audit">
-                <button className="sidebar-btn">Audit</button>
-              </Link>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
+    <aside className="sidebar-container">
+      <nav className="sidebar-nav-container">
+        <header className="sidebar-header-container">
+            <figure>
+              <img src="/wave-png-49467.png" className="sidebar-logo" />
+              <figcaption>Oflow</figcaption>
+            </figure>
+        </header>
+        <section className="sidebar-section-container">
+          <ul>
+          <li className="sidebar-li sidebar-li-header">Général</li>
+          <li className="sidebar-li">
+            <Link to="/" className="sidebar-li-a">
+              <span className="sidebar-icon">
+                <FaHome />
+              </span>
+              <span className="sidebar-text">Home</span>
+            </Link>
+          </li>
+        </ul>
+        </section>
+        
+      </nav>
+    </aside>
   )
 }
