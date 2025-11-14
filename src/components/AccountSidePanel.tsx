@@ -1,4 +1,4 @@
-import type { Account, BalanceSnapshot } from "../pages/dashboardService";
+import type { Account, BalanceSnapshot } from "../pages/services/dashboardService";
 import "./AccountSidePanel.css";
 
 export default function AccountSidePanel({

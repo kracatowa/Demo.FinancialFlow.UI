@@ -1,0 +1,38 @@
+
+.home-card-title
+{
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    display: flex;
+    align-items: flex-start;
+    margin:0
+}
+
+.home-card-content{
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    margin: 0.5rem;
+    block-size: 100%;
+    align-items: center;
+}
+
+.home-card{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 0.5rem;
+    background-color: var(--bg-secondary);
+}
+
+.home-container-info > .home-card {
+  max-width: 25%;
+}
+
+.home-container-info{
+    display: flex;
+    gap: 1rem;
+    margin: 1rem;
+}
