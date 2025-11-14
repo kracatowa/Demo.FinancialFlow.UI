@@ -14,7 +14,8 @@ export async function fetchDashboardData() : Promise<DashboardData> {
     { id: 'acc-12', bank: 'Santander', entity: 'EU Subsidiary', currency: 'EUR', account_ref: '****4321', active: true },
     { id: 'acc-13', bank: 'Santander', entity: 'EU Subsidiary', currency: 'USD', account_ref: '****8765', active: true },
     { id: 'acc-14', bank: 'Santander', entity: 'EU Subsidiary', currency: 'CAD', account_ref: '****2468', active: true },
-    { id: 'acc-15', bank: 'RBC Canada', entity: 'Canada Retail', currency: 'USD', account_ref: '****1357', active: false }
+    { id: 'acc-15', bank: 'RBC Canada', entity: 'Canada Retail', currency: 'USD', account_ref: '****1357', active: false },
+    { id: 'acc-16', bank: 'RBC Canada', entity: 'Canada AR', currency: 'USD', account_ref: '****1388', active: false }
   ];
 
   const mockBalanceSnapshots: BalanceSnapshot[] = [
@@ -32,7 +33,8 @@ export async function fetchDashboardData() : Promise<DashboardData> {
     { id: 'snap-12', account_id: 'acc-12', as_of_utc: '2025-11-07T00:00:00Z', book: 2100000, available: 2100000, source: 'Santander' },
     { id: 'snap-13', account_id: 'acc-13', as_of_utc: '2025-11-07T00:00:00Z', book: 1800000, available: 1800000, source: 'Santander' },
     { id: 'snap-14', account_id: 'acc-14', as_of_utc: '2025-11-07T00:00:00Z', book: 900000, available: 900000, source: 'Santander' },
-    { id: 'snap-15', account_id: 'acc-15', as_of_utc: '2025-11-07T00:00:00Z', book: 500000, available: 500000, source: 'RBC Canada' }
+    { id: 'snap-15', account_id: 'acc-15', as_of_utc: '2025-11-07T00:00:00Z', book: 500000, available: 500000, source: 'RBC Canada' },
+    { id: 'snap-16', account_id: 'acc-16', as_of_utc: '2025-11-07T00:00:00Z', book: 600000, available: 600000, source: 'RBC Canada' }
   ];
 
   const mockFxRates: FxRate[] = [

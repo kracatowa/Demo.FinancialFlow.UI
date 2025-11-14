@@ -40,12 +40,12 @@ export default function Home() {
   useEffect(() => {
     let totalBalance = 0;
 
+    
+
     treeTableNodes.forEach(node => {
       totalBalance += parseFloat(node.data.balance.replace(/,/g, '') || '0');
     });
     setTotalCash(totalBalance);
-
-    
 
     setCurrencyDistribution({
       USD: 62,
@@ -54,11 +54,20 @@ export default function Home() {
     });
   }, [treeTableNodes]);
 
+  const handleAccountClick = (accountId: string | null) => {
+    if (!accounts || !balanceSnapshots) return;
+    const acc = accounts.find(a => a.id === accountId) || null;
+    const snap = balanceSnapshots.find(s => s.account_id === accountId) || null;
+    setAccount(acc);
+    setBalanceSnapshot(snap);
+    setVisible(true);
+  }
+
   const actionTemplate = (node : TreeNode) => {
         let dataname = node.data.name
 
         return  dataname.startsWith("Account") ? (
-        <button id={node.key ? `${node.key}` : ''} type="button" aria-label="Search" className="icon-button" onClick={()=>{ setVisible(true); setAccount(accounts.find(acc => acc.id === node.key) || null); setBalanceSnapshot(balanceSnapshots.find(snap => snap.account_id === node.key) || null); }}>
+        <button id={node.key ? `${node.key}` : ''} type="button" aria-label="Search" className="icon-button" onClick={()=>{ handleAccountClick(node.key?.toLocaleString() || ''); }}>
             <FaSearch />
         </button>
         ) : null;
@@ -99,9 +108,9 @@ export default function Home() {
       <div className="card">
         <TreeTable value={treeTableNodes}>
           <Column field="name" header="Bank / Entity / Currency / Account" style={{width: '24rem'}} expander sortable></Column>
-          <Column field="lcybalance" header="Balance (LCY)" style={{width: '6rem'}} sortable></Column>
-          <Column field="lcy" header="LCY" style={{width: '4rem'}} sortable></Column>
-          <Column field="balance" header={`Base (${baseCurrency})`} style={{width: '6rem'}} body={totalBalance} sortable></Column>
+          <Column field="lcybalance" header="Balance (LCY)" style={{width: '6rem', textAlign: 'center' }} sortable></Column>
+          <Column field="lcy" header="LCY" style={{width: '4rem', textAlign: 'center' }} sortable></Column>
+          <Column field="balance" header={`Base (${baseCurrency})`} style={{width: '6rem', textAlign: 'center' }} body={totalBalance} sortable></Column>
           <Column body={actionTemplate} style={{width: '1rem'}} />
         </TreeTable>
       </div>

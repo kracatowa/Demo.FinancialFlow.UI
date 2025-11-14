@@ -1,88 +1,206 @@
 import type { TreeNode } from "primereact/treenode";
-import type { DashboardData, Account } from "./dashboardService";
+import type { DashboardData, Account, BalanceSnapshot, FxRate } from "./dashboardService";
 
-function groupAccountsByBank(accounts: Account[]) {
-  const banks: { [bank: string]: Account[] } = {};
+// Local interfaces for better type safety and readability
+interface GroupedAccounts {
+  [key: string]: Account[];
+}
+
+interface CalculatedBalance {
+  usdAmount: number;
+  localAmount: number;
+}
+
+// Generic grouping function to reduce code duplication
+function groupAccountsBy<T extends Account>(
+  accounts: T[], 
+  keySelector: (account: T) => string
+): GroupedAccounts {
+  const groups: GroupedAccounts = {};
   accounts.forEach(acc => {
-    if (!banks[acc.bank]) banks[acc.bank] = [];
-    banks[acc.bank].push(acc);
+    const key = keySelector(acc);
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(acc);
   });
-  return banks;
+  return groups;
 }
 
-function getFxRateForCurrency(currency: string, fxRates: { from_ccy: string; rate: number }[]) {
-    const fxRate = fxRates.find(fx => fx.from_ccy === currency);
-    return fxRate ? fxRate.rate : 1;
+function groupAccountsByBank(accounts: Account[]): GroupedAccounts {
+  return groupAccountsBy(accounts, acc => acc.bank);
 }
 
-export async function buildTreeNode(dashboardData: DashboardData): Promise<TreeNode[]> {
-  const { accounts, balanceSnapshots } = dashboardData;
-  const banks = groupAccountsByBank(accounts);
+function groupAccountsByEntity(accounts: Account[]): GroupedAccounts {
+  return groupAccountsBy(accounts, acc => acc.entity);
+}
 
-  return Object.entries(banks).map(([bankName, bankAccounts], bankIdx) => ({
-    key: `${bankIdx}`,
+function groupByCurrency(accounts: Account[]): GroupedAccounts {
+  return groupAccountsBy(accounts, acc => acc.currency);
+}
+
+function getFxRateForCurrency(currency: string, fxRates: FxRate[]): number {
+  if (currency === 'USD') return 1;
+  
+  const fxRate = fxRates.find(fx => fx.from_ccy === currency);
+  return fxRate ? fxRate.rate : 1;
+}
+
+function roundToNearestThousand(value: number): number {
+  return Math.round(value / 1000) * 1000;
+}
+
+function calculateAccountBalance(
+  account: Account, 
+  balanceSnapshots: BalanceSnapshot[], 
+  fxRates: FxRate[]
+): CalculatedBalance {
+  const snapshot = balanceSnapshots.find(s => s.account_id === account.id);
+  if (!snapshot) {
+    return { usdAmount: 0, localAmount: 0 };
+  }
+
+  const fxRate = getFxRateForCurrency(account.currency, fxRates);
+  return {
+    usdAmount: snapshot.book * fxRate,
+    localAmount: snapshot.available
+  };
+}
+
+function calculateTotalBalance(
+  accounts: Account[], 
+  balanceSnapshots: BalanceSnapshot[], 
+  fxRates: FxRate[]
+): CalculatedBalance {
+  return accounts.reduce(
+    (total, account) => {
+      const balance = calculateAccountBalance(account, balanceSnapshots, fxRates);
+      return {
+        usdAmount: total.usdAmount + balance.usdAmount,
+        localAmount: total.localAmount + balance.localAmount
+      };
+    },
+    { usdAmount: 0, localAmount: 0 }
+  );
+}
+
+function formatBalance(amount: number): string {
+  return roundToNearestThousand(amount).toLocaleString();
+}
+
+function createAccountNode(
+  account: Account, 
+  balanceSnapshots: BalanceSnapshot[], 
+  fxRates: FxRate[]
+): TreeNode {
+  const balance = calculateAccountBalance(account, balanceSnapshots, fxRates);
+  
+  return {
+    key: account.id,
     data: {
-      name: bankName,
-      balance: bankAccounts
-        .map(acc => {
-          const snap = balanceSnapshots.find(s => s.account_id === acc.id);
+      id: account.id,
+      name: `Account ${account.account_ref} (${account.active ? "Operating" : "Inactive"})`,
+      balance: balance.usdAmount > 0 ? formatBalance(balance.usdAmount) : '-',
+      lcybalance: balance.localAmount > 0 ? balance.localAmount.toLocaleString() : '-',
+      lcy: account.currency
+    }
+  };
+}
 
-          const fxrates = getFxRateForCurrency(acc.currency, dashboardData.fxRates);
-          return snap ? (snap.book * fxrates) : 0;
-        })
-        .reduce((a, b) => Math.round((a + b) / 1000) * 1000 , 0)
-        .toLocaleString(),
+function createCurrencyNode(
+  currency: string,
+  currencyAccounts: Account[],
+  balanceSnapshots: BalanceSnapshot[],
+  fxRates: FxRate[],
+  bankIdx: number,
+  entityIdx: number,
+  currencyIdx: number
+): TreeNode {
+  const totalBalance = calculateTotalBalance(currencyAccounts, balanceSnapshots, fxRates);
+  
+  return {
+    key: `${bankIdx}-${entityIdx}-0-${currencyIdx}`,
+    data: {
+      name: currency,
+      balance: formatBalance(totalBalance.usdAmount),
+      lcybalance: totalBalance.localAmount.toLocaleString(),
+      lcy: currency
+    },
+    children: currencyAccounts.map(account => 
+      createAccountNode(account, balanceSnapshots, fxRates)
+    )
+  };
+}
+
+function createEntityNode(
+  entity: string,
+  entityAccounts: Account[],
+  balanceSnapshots: BalanceSnapshot[],
+  fxRates: FxRate[],
+  bankIdx: number,
+  entityIdx: number
+): TreeNode {
+  const currencyGroups = groupByCurrency(entityAccounts);
+  
+  return {
+    key: `${bankIdx}-${entityIdx}-0`,
+    data: {
+      name: entity,
+      balance: '-',
       lcybalance: '-',
       lcy: '-'
     },
-    children: [
-      {
-        key: `${bankIdx}-0`,
-        data: {
-          name: `${bankAccounts[0].entity}`,
-          balance: '-',
-          lcybalance: '-',
-          lcy: '-'
-        },
-        children: Object.entries(
-          bankAccounts.reduce((acc, account) => {
-            if (!acc[account.currency]) acc[account.currency] = [];
-            acc[account.currency].push(account);
-            return acc;
-          }, {} as { [currency: string]: Account[] })
-        ).map(([currency, currencyAccounts], currencyIdx) => ({
-          key: `${bankIdx}-0-${currencyIdx}`,
-          data: {
-            name: currency,
-            balance: currencyAccounts
-              .map(acc => {
-                const snap = balanceSnapshots.find(s => s.account_id === acc.id);
+    children: Object.entries(currencyGroups).map(([currency, currencyAccounts], currencyIdx) =>
+      createCurrencyNode(currency, currencyAccounts, balanceSnapshots, fxRates, bankIdx, entityIdx, currencyIdx)
+    )
+  };
+}
 
-                const fxrates = getFxRateForCurrency(acc.currency, dashboardData.fxRates);
-                return snap ? (snap.book * fxrates) : 0;
-              })
-              .reduce((a, b) => Math.round((a + b) / 1000) * 1000 , 0)
-              .toLocaleString(),
-            lcybalance: '-',
-            lcy: currency
-          },
-          children: currencyAccounts.map((acc) => {
-            const snap = balanceSnapshots.find(s => s.account_id === acc.id);
-            const fxrates = getFxRateForCurrency(acc.currency, dashboardData.fxRates);
+function createBankNode(
+  bankName: string,
+  bankAccounts: Account[],
+  balanceSnapshots: BalanceSnapshot[],
+  fxRates: FxRate[],
+  bankIdx: number
+): TreeNode {
+  const totalBankBalance = calculateTotalBalance(bankAccounts, balanceSnapshots, fxRates);
+  const entityGroups = groupAccountsByEntity(bankAccounts);
+  
+  let children: TreeNode[] = [];
+  let key = `${bankIdx}`
+  let bankNam = bankName;
 
-            return {
-              key: `${acc.id}`,
-              data: {
-                id: acc.id,
-                name: `Account ${acc.account_ref} (${acc.active ? "Operating" : "Inactive"})`,
-                balance: snap ? (snap.book * fxrates).toLocaleString() : '-',
-                lcybalance: snap ? snap.available.toLocaleString() : '-',
-                lcy: acc.currency
-              }
-            };
-          })
-        }))
-      }
-    ]
-  }));
+  if(Object.keys(entityGroups).length === 1) 
+  {
+    bankNam = `${bankName} - ${entityGroups[Object.keys(entityGroups)[0]][0].entity}`;
+    key = `${bankNam}`;
+    const currencyGroups = groupByCurrency(entityGroups[Object.keys(entityGroups)[0]]);
+
+    children = Object.entries(currencyGroups).map(([currency, currencyAccounts], currencyIdx) =>
+      createCurrencyNode(currency, currencyAccounts, balanceSnapshots, fxRates, bankIdx, 10, currencyIdx)
+    )
+  }
+  else
+  {
+    children = Object.entries(entityGroups).map(([entity, entityAccounts], entityIdx) =>
+      createEntityNode(entity, entityAccounts, balanceSnapshots, fxRates, bankIdx, entityIdx));
+  }
+
+  return {
+    key: key,
+    data: {
+      name: bankNam,
+      balance: formatBalance(totalBankBalance.usdAmount),
+      lcybalance: '-',
+      lcy: '-'
+    },
+    children: children
+  };
+}
+
+export async function buildTreeNode(dashboardData: DashboardData): Promise<TreeNode[]> {
+  const { accounts, balanceSnapshots, fxRates } = dashboardData;
+  const bankGroups = groupAccountsByBank(accounts);
+
+  return Object.entries(bankGroups).map(([bankName, bankAccounts], bankIdx) =>
+    createBankNode(bankName, bankAccounts, balanceSnapshots, fxRates, bankIdx)
+  );
 }
