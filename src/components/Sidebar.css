@@ -1,9 +1,10 @@
 .sidebar-container {
   display: flex;
-  inline-size: 15vw;
   padding: 0.5rem;
-  background: var(--bg-secondary);
-  animation: fadeInLeft 1.5s ease-out;
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, #ffffff 100%);
+  animation: fadeInLeft 1s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
+  position: relative;
 }
 
 .sidebar-nav-container {
@@ -66,14 +67,39 @@ ul {
   gap: 0.5rem;
   block-size: 100%;
   text-decoration: none;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar-li-a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--accent-primary);
+  transform: scaleY(0);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sidebar-li-a:hover {
-  background: var(--hover-bg);
+  background: linear-gradient(90deg, var(--hover-bg) 0%, rgba(91, 155, 213, 0.1) 100%);
   color: var(--accent-primary);
-  text-decoration: underline;
-  transition: background 0.2s, color 0.2s;
-  border-radius: 5px;
+  transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(91, 155, 213, 0.15);
+}
+
+.sidebar-li-a:hover::before {
+  transform: scaleY(1);
+}
+
+.sidebar-li-a:hover .sidebar-icon svg {
+  transform: scale(1.1) rotate(5deg);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sidebar-icon {
@@ -85,6 +111,8 @@ ul {
         inline-size: var(--svg);
         block-size: var(--svg);
         fill: var(--accent-primary);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        filter: drop-shadow(0 2px 4px rgba(91, 155, 213, 0.2));
     }
 }
 

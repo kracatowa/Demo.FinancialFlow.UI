@@ -1,22 +1,60 @@
 footer {
-  background: var(--bg-secondary);
+  background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
   color: var(--text-secondary);
   text-align: center;
   flex: 0 0 auto;
   padding-bottom: 2rem;
   padding-top: 2rem;
+  border-top: 1px solid rgba(91, 155, 213, 0.15);
+  position: relative;
+}
+
+footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+  border-radius: 2px;
 }
 
 footer p {
   margin: 0.5rem 0;
   font-size: 0.9rem;
+  animation: fadeIn 1s ease-out 0.5s backwards;
 }
 
 footer a {
   color: var(--text-primary);
-  transition: color 0.2s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+footer a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+  transition: width 0.3s ease;
 }
 
 footer a:hover {
   color: var(--accent-primary);
+}
+
+footer a:hover::after {
+  width: 100%;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
